@@ -17,7 +17,7 @@ export default function AssignmentEditor() {
           </td>
         </tr>
         <tr>
-          <label htmlFor="wd-group">Assignment Group </label>
+          <label htmlFor="wd-group">Assignment Group</label>
     <select id="wd-group" name="options">
         <option value="option1">ASSIGNMENTS</option>
         <option value="option2">QUIZZES</option>
@@ -32,11 +32,30 @@ export default function AssignmentEditor() {
     </select>
           </tr>
           <tr>
-          <label htmlFor="wd-submission-type">Display grade as </label>
-    <select id="wd-submission-type" name="options">
+          <tr>
+          <label htmlFor="wd-submission-type">Submission Type </label>
+          <select id="wd-submission-type" name="options">
         <option value="option1">Online</option>
         <option value="option2">Offline</option>
     </select>
+            </tr>
+            <tr>Online Entry Options</tr>
+      <tr><input type="checkbox" name="interests" value="technology" /> Text Entry</tr>
+    
+      <tr><input type="checkbox" name="interests" value="science" /> Website URL</tr>
+    
+      <tr><input type="checkbox" name="interests" value="sports"/> Media Recordings</tr>
+    
+     <tr> <input type="checkbox" name="interests" value="music"/> Student Annotations</tr>
+    
+      <tr><input type="checkbox" name="interests" value="travel"/> File Uploads</tr>
+    
+          </tr>
+          <tr>
+          <label htmlFor="wd-assign-to">Assign </label>
+          <text> Assign to </text><br></br>
+          <input id="wd-assign-to" value="Everyone"  /><br /><br />
+    
           </tr>
           <tr>
           <label htmlFor="wd-due-date">Due</label>
@@ -52,7 +71,7 @@ export default function AssignmentEditor() {
             <td><input type="date" id="wd-available-until" value="2024-05-13" /></td>
           </tr>
           <tr>
-        
+        <hr/>
         <button type="button" >Cancel</button><span> </span>  <button type="submit">Save</button>
           </tr>
       </table>
