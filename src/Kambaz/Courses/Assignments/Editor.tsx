@@ -17,12 +17,12 @@ export default function AssignmentEditor() {
           </td>
         </tr>
         <tr>
-          <label htmlFor="wd-group">Assignment Group</label>
-    <select id="wd-group" name="options">
+          <td ><label  htmlFor="wd-group">Assignment Group</label></td>
+    <td align="left"><select id="wd-group" name="options">
         <option value="option1">ASSIGNMENTS</option>
         <option value="option2">QUIZZES</option>
         <option value="option3">EXAMS</option>
-    </select>
+    </select></td>
           </tr>
           <tr>
           <label htmlFor="wd-display-grade-as">Display grade as </label>

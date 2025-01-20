@@ -5,7 +5,7 @@ import KambazNavigation from "./Navigation"
 import Courses from "./Courses"
 export default function Kambaz(){
     return(
-      <div id="wd-kambaz">
+      <div align="left" id="wd-kambaz">
       <table>
         <tr>
           <td valign="top">
