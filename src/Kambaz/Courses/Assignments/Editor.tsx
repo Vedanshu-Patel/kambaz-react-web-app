@@ -142,16 +142,10 @@ export default function AssignmentEditor() {
         </tr>
       </table>
       <hr></hr>
-      <table>
-        <tr>
-          <td align="right" valign="top">
-          
-          </td>
-          <td style={{ textAlign: "right" }}>
-          <button type="button" >Cancel</button><span> </span>  <button type="button">Save</button>
-          </td>
-        </tr>
-      </table>
+      <div align="right">
+        <button type="button" >Cancel</button><span> </span>
+        <button type="button">Save</button>
+      </div>
     </div>
   );
 }
