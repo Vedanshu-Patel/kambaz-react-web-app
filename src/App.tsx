@@ -1,6 +1,6 @@
 import { HashRouter,Route, Routes,Navigate} from "react-router-dom"
 import Labs from "./Labs"
-import './App.css'
+// import './App.css'
 import Kambaz from "./Kambaz"
 
 function App() {
