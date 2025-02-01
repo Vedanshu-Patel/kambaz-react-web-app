@@ -6,21 +6,27 @@ import { Routes, Route, Navigate } from "react-router-dom"
 export default function Account(){
     return(
         <div id="wd-account-screen">
-        <table width="100%">
-          <tr>
-            <td valign="top">
+        {/* <table width="100%">
+          <tr> */}
+            {/* <td valign="top" > */}
+            <div className="d-flex">
+             <div className="d-none d-md-block">
               <AccountNavigation />
-            </td>
-            <td valign="top">
+            {/* </td> */}
+            </div>
+            {/* <td valign="top"> */}
+            <div className="flex">
               <Routes>
                 <Route path="/"        element={<Navigate to="/Kambaz/Account/Signin" />} />
                 <Route path="/Signin"  element={<Signin />} />
                 <Route path="/Profile" element={<Profile />} />
                 <Route path="/Signup"  element={<Signup />} />
               </Routes>
-            </td>
+              </div>
+              </div>
+            {/* </td>
           </tr>
-        </table>
+        </table> */}
       </div>
     );
 
