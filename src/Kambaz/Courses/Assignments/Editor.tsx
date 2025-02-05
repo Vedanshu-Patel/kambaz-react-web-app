@@ -14,8 +14,8 @@ export default function AssignmentEditor() {
           </FormControl>
         </FormGroup>
         <FormGroup><br />
-          <FormControl as="textarea" id="wd-description" rows={3}>
-            This assignment is
+          <FormControl as="textarea" id="wd-description" rows={5}>
+            This assignment is available online
             Submit a link to the landing page of  online our Web application running on Netlify.
 
             The landing page should be the Kambaz application with a link to the Lab exercises.

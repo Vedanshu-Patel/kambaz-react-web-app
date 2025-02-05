@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import { MdEditDocument } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
-import { BiEdit } from "react-icons/bi";
 
 export default function Assignments() {
   return (
