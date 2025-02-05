@@ -17,12 +17,7 @@ export default function AssignmentControls() {
             <span className="bg-white border-start border-top border-bottom" style={{ padding: "0.375rem 0.75rem", float: "left" }}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </span>
-            <FormControl type="text" placeholder="Search..." id="wd-search-assignment" className="border-start-0" style={{
-                float: "left",
-                width: "33%"
-            }}></FormControl>
-
-
+            <FormControl type="text" placeholder="Search..." id="wd-search-assignment" className="border-start-0" style={{float: "left",width: "33%"}}></FormControl>
         </div>
     );
 }
