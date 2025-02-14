@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import {Row,Card,Button,Col} from "react-bootstrap"
-import courses  from"./Database";
+import {courses}  from"./Database";
 export default function Dashboard() {
- 
-console.log("Courses:", courses);
   return (
     <div id="wd-dashboard">
   <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
