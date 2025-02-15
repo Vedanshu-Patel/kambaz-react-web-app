@@ -8,9 +8,14 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import { MdEditDocument } from "react-icons/md";
 import { useParams } from "react-router";
 import { assignments } from "../../Database";
-
+import { parse, format } from "date-fns";
 export default function Assignments() {
   const {cid} = useParams();
+
+  const formatDate = (dateString: string) => {
+    const parsedDate = parse(dateString, "yyyy-MM-dd", new Date());
+    return format(parsedDate, "MMMM d, yyyy");
+  };
   return (
     <div id="wd-assignments">
       <AssignmentControls /><br /><br /><br /><br />
@@ -36,7 +41,7 @@ export default function Assignments() {
                     <b>{assignment.title}</b>
                   </a>
                   <div>
-                    <p><text className="text-danger">Multiple Modules</text> | <b>Not Available until</b> July 4 at 10:20am | <b>Due</b> July 14 at 11:59pm | 100 pts</p>
+                    <p><text className="text-danger">Multiple Modules</text> | <b>Not Available until</b> {formatDate(assignment.notUntilDate)} at {assignment.time} | <b>Due</b> {formatDate(assignment.dueDate)} at {assignment.time} | {assignment.points} pts</p>
                   </div>
                 </div></div>
             </ListGroup.Item>
