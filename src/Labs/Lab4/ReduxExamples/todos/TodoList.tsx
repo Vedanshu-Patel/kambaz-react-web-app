@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 export default function TodoList() {
   const [todos, setTodos] = useState([
     { id: "1", title: "Learn React" },
