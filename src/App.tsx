@@ -2,12 +2,14 @@ import { HashRouter,Route, Routes,Navigate} from "react-router-dom"
 import Labs from "./Labs"
 // import './App.css'
 import Kambaz from "./Kambaz"
-
+import store from "./Kambaz/store";
+import { Provider } from "react-redux";
 function App() {
   
 
   return (
     <HashRouter>
+      <Provider store={store}>
     <div>
       <Routes>
         {/* <Route path="/" element={<Labs />} /> */}
@@ -17,6 +19,7 @@ function App() {
       
       </Routes>
     </div>
+    </Provider>
     </HashRouter>
   )
 }
