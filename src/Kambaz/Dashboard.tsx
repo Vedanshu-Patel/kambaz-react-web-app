@@ -17,24 +17,21 @@ export default function Dashboard(
     const { courses } = useSelector((state: any) => state.courseReducer);
     const { enrollments } = db;
     const dispatch = useDispatch();
-    const newCourse={_id: uuidv4(),
+    const courseToAdd={_id: uuidv4(),
           name: "New Course Name", 
           endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
           department: "D123",
       credits: 4,
       }
-      const [course, setCourse] = useState(newCourse);
+      const [course, setCourse] = useState(courseToAdd);
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-      {currentUser.role === "FACULTY" && (<><h5>New Course
-        <button className="btn btn-primary float-end"
-          id="wd-add-new-course-click"
+      {currentUser.role === "FACULTY" && (<><h5>New Course<button className="btn btn-primary float-end" id="wd-add-new-course-click"
           onClick={() => { const duplicateCreateBugSolve={...course,_id: uuidv4()}
-          setCourse(duplicateCreateBugSolve)
-            dispatch(addCourse(course))}} > Add </button>
-          <button className="btn btn-warning float-end me-2"
-                onClick={() => dispatch(updateCourse(course))} id="wd-update-course-click">
+          setCourse(duplicateCreateBugSolve) 
+          dispatch(addCourse(course))}} > Add </button>
+          <button className="btn btn-warning float-end me-2" onClick={() => dispatch(updateCourse(course))} id="wd-update-course-click">
           Update
         </button>
       </h5><hr />
