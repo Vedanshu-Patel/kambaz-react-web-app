@@ -48,7 +48,7 @@ const assignmentsSlice = createSlice({
     },
     updateAssignment: (state, action) => {
         state.assignments = (state.assignments = state.assignments.map((a: any) =>
-            a._id === action.payload._id ? action.payload : a
+            action.payload._id  === a._id ? action.payload : a
         ));
         state.assignment = {
             title:"",
@@ -63,7 +63,7 @@ const assignmentsSlice = createSlice({
     },
     deleteAssignment: (state, action) => {
         state.assignments = state.assignments.filter(
-            (a: any) => a._id !== action.payload
+            (a: any) => action.payload  !== a._id
         );
     },
 
