@@ -6,6 +6,7 @@ import Home from "./Home"
 import Assignments from "./Assignments"
 import AssignmentEditor from "./Assignments/Editor"
 import PeopleTable from "./People/Table";
+import ProtectedRouteCourse from "./ProtectedRouteCourse";
 // import {courses} from "../Database";
 export default function Courses({ courses }: { courses: any[]; }) {
   const {cid} = useParams();
@@ -29,12 +30,12 @@ export default function Courses({ courses }: { courses: any[]; }) {
             <td valign="top"> */}
             <div className="flex-fill">
               <Routes>
-                <Route path="/" element={<Navigate to="Home" />} />
-                <Route path="Home" element={<Home/>} />
-                <Route path="Modules" element={<Modules />} />
-                <Route path="Assignments" element={<Assignments />} />
-                <Route path="Assignments/:aid" element={<AssignmentEditor/>} />
-                <Route path="People" element={<PeopleTable />} />
+                <Route path="/" element={<ProtectedRouteCourse><Navigate to="Home" /></ProtectedRouteCourse>} />
+                <Route path="Home" element={<ProtectedRouteCourse><Home/></ProtectedRouteCourse>} />
+                <Route path="Modules" element={<ProtectedRouteCourse><Modules /></ProtectedRouteCourse>} />
+                <Route path="Assignments" element={<ProtectedRouteCourse><Assignments /></ProtectedRouteCourse>} />
+                <Route path="Assignments/:aid" element={<ProtectedRouteCourse><AssignmentEditor/></ProtectedRouteCourse>} />
+                <Route path="People" element={<ProtectedRouteCourse><PeopleTable /></ProtectedRouteCourse>} />
               </Routes>
               </div>
               </div>
