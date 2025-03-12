@@ -12,6 +12,7 @@ import { addModule, editModule, updateModule, deleteModule }
   from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 export default function Modules() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
@@ -19,10 +20,10 @@ export default function Modules() {
 
   return (
     <div>
-      <ModulesControls setModuleName={setModuleName} moduleName={moduleName} addModule={() => {
+      {currentUser.role === "FACULTY" && <ModulesControls setModuleName={setModuleName} moduleName={moduleName} addModule={() => {
           dispatch(addModule({ name: moduleName, course: cid }));
           setModuleName("");
-        }} />
+        }} />}
 <br /><br /><br /><br />
       <ListGroup className="rounded-0" id="wd-modules">
         {modules
@@ -41,11 +42,11 @@ export default function Modules() {
                }}
                defaultValue={module.name}/>
       )}
-              <ModuleControlButtons moduleId={module._id}
+            {currentUser.role === "FACULTY" &&  <ModuleControlButtons moduleId={module._id}
         deleteModule={(moduleId) => {
           dispatch(deleteModule(moduleId));
         }}
-        editModule={(moduleId) => dispatch(editModule(moduleId))} />
+        editModule={(moduleId) => dispatch(editModule(moduleId))} />}
               </div>
               {module.lessons && (
                 <ListGroup className="wd-lessons rounded-0">
