@@ -10,10 +10,10 @@ export default function AssignmentControls() {
     const { cid } = useParams();
     const dispatch = useDispatch();
     const newAssignment={
-        title:"New Title",
-        course:cid,
-        points:"100",
-        description:"New Description",
+    title:"New Title",
+    course:cid,
+    points:"100",
+    description:"New Description",
         dueDate:"2025-06-26",
         fromDate:"2025-06-26",
         untilDate:"2025-06-26",

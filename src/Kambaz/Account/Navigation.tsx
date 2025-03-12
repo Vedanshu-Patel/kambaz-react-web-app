@@ -6,8 +6,11 @@ export default function AccountNavigation() {
   const { pathname } = useLocation();
   return (
     <div id="wd-account-navigation" className="wd list-group fs-5 rounded-0">
-      <Link to={`/Kambaz/Account/Signin`}  className="list-group-item text-danger border border-0 active"> Signin  </Link>
+      {links.map((link)=>(
+        <Link to={`/Kambaz/Account/${link}`}  className={`list-group-item text-danger border border-0 ${pathname.includes(link) ? "active" : ""}`}> {link}  </Link>
+      ))}
+      {/* <Link to={`/Kambaz/Account/Signin`}  className="list-group-item text-danger border border-0 active"> Signin  </Link>
       <Link to={`/Kambaz/Account/Signup`}  className="list-group-item text-danger border border-0"> Signup  </Link>
-      <Link to={`/Kambaz/Account/Profile`} className="list-group-item text-danger border border-0"> Profile </Link>
+      <Link to={`/Kambaz/Account/Profile`} className="list-group-item text-danger border border-0"> Profile </Link> */}
     </div>
 );}
