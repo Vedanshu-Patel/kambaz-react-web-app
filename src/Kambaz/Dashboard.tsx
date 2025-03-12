@@ -21,7 +21,8 @@ export default function Dashboard(
     const newCourse={_id: uuidv4(),
           name: "New Course Name", 
           endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
-          image: "images/reactjs.jpg"
+          department: "D123",
+      credits: 4,
       }
       const [course, setCourse] = useState(newCourse);
   return (
@@ -30,7 +31,9 @@ export default function Dashboard(
       <h5>New Course
         <button className="btn btn-primary float-end"
           id="wd-add-new-course-click"
-          onClick={() => dispatch(addCourse(course))} > Add </button>
+          onClick={() => { const duplicateCreateBugSolve={...course,_id: uuidv4()}
+          setCourse(duplicateCreateBugSolve)
+            dispatch(addCourse(course))}} > Add </button>
           <button className="btn btn-warning float-end me-2"
                 onClick={() => dispatch(updateCourse(course))} id="wd-update-course-click">
           Update
