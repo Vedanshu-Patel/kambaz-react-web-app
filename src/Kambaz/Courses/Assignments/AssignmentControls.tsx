@@ -25,6 +25,7 @@ const [show, setShow] = useState(false);
     dispatch(setAssignment(newAssignment));
     setShow(true); 
 };
+console.log(show);
 
     return (
         <div className="text-nowrap">
