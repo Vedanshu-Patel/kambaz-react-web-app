@@ -28,7 +28,7 @@ export default function Dashboard(
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-      <h5>New Course
+      {currentUser.role === "FACULTY" && (<><h5>New Course
         <button className="btn btn-primary float-end"
           id="wd-add-new-course-click"
           onClick={() => { const duplicateCreateBugSolve={...course,_id: uuidv4()}
@@ -43,6 +43,7 @@ export default function Dashboard(
         onChange={(e) => setCourse({ ...course, name: e.target.value })} />
       <FormControl value={course.description} as="textarea" rows={3}
         onChange={(e) => setCourse({ ...course, description: e.target.value })} />
+      </> )}
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
@@ -61,6 +62,7 @@ export default function Dashboard(
                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden" >{c.name}</Card.Title>
                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>{c.description}</Card.Text>
                     <Button variant="primary">Go</Button>
+                    {currentUser.role === "FACULTY" && (<>
                     <Button variant="danger" onClick={(event) => {
                       event.preventDefault();
                       dispatch(deleteCourse(c._id));
@@ -76,7 +78,7 @@ export default function Dashboard(
                       className="me-2 float-end" >
                       Edit
                     </Button>
-
+                    </>)}
                   </Card.Body>
                 </Link>
               </Card>
