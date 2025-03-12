@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 // import { assignments } from "../../Database";
 import { parse, format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment, setAssignment } from "./reducer";
+import { setAssignment } from "./reducer";
 import IndividualAssignmentControlButtons from "./IndividualAssignmentControlButtons";
 export default function Assignments() {
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
