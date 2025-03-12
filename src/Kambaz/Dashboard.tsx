@@ -13,9 +13,8 @@ export default function Dashboard(
   // updateCourse: () => void; }
 )
   {
-    const { courses } = useSelector((state: any) => state.courseReducer);
-    
     const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const { courses } = useSelector((state: any) => state.courseReducer);
     const { enrollments } = db;
     const dispatch = useDispatch();
     const newCourse={_id: uuidv4(),
@@ -63,16 +62,16 @@ export default function Dashboard(
                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>{c.description}</Card.Text>
                     <Button variant="primary">Go</Button>
                     {currentUser.role === "FACULTY" && (<>
-                    <Button variant="danger" onClick={(event) => {
-                      event.preventDefault();
+                    <Button variant="danger" onClick={(e) => {
+                      e.preventDefault();
                       dispatch(deleteCourse(c._id));
                     }} className="float-end"
                       id="wd-delete-course-click">
                       Delete
                     </Button>
                     <Button variant="warning" id="wd-edit-course-click"
-                      onClick={(event) => {
-                        event.preventDefault();
+                      onClick={(e) => {
+                        e.preventDefault();
                         setCourse(c);
                       }}
                       className="me-2 float-end" >

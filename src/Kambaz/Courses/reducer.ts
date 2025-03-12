@@ -41,15 +41,13 @@ const courseSlice = createSlice({
         },
         updateCourse: (state, { payload :course}) => {
             state.courses = state.courses.map((c) => {
-                    if (c._id === course._id) {
+                    if ( course._id===  c._id) {
                         return course;
                     } else {
-                        return c;
-                    }
-                })
+                        return c;}})
         },
         deleteCourse: (state, { payload : courseId }) => {
-            state.courses = (state.courses.filter((course) => course._id !== courseId));
+            state.courses =  (state.courses.filter((course) => courseId  !== course._id));
         }
 
     }
