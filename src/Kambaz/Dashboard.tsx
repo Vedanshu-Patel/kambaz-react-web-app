@@ -79,9 +79,9 @@ export default function Dashboard(
                     {currentUser.role==="STUDENT" && (enrollments.some((enrollment: any) =>
                       enrollment.course === c._id && currentUser._id  ===  enrollment.user)?<Button 
                       onClick={(e)=>{e.preventDefault(); dispatch(removeStudentEnrollment({course:c, user:currentUser}))
-                      }} variant="danger">Uneroll</Button>:
+                      }} variant="danger" className="float-end">Uneroll</Button>:
                       <Button onClick={(e)=>{e.preventDefault(); dispatch(addStudentEnrollment({course:c, user:currentUser}))
-                    }} variant="success">Enroll</Button>)}
+                    }} variant="success" className="float-end">Enroll</Button>)}
                   </Card.Body>
                 </Link>
               </Card>
