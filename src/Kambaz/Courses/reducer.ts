@@ -4,38 +4,16 @@ import { courses } from "../Database";
 const initialState = {
     courses:courses,
     // course:{
-    //     name: "New Course", number: "New Number",
-    //     startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
+    //     name: "New Course Name", 
+     //     endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
+       //   department: "D123",credits: 4,
     // }
 };
 const courseSlice = createSlice({
     name: "courses",
     initialState,
     reducers:{
-        // addCourse:(state,action) =>{
-        //     state.courses = [...state.courses,{...action.payload,_id: uuidv4()}];
-        //     state.course={
-        //         name: "New Course", number: "New Number",
-        //         startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
-        //     }
-        // },
-        // updateCourse:(state,action)=>{
-        //     state.courses = (state.courses = state.courses.map((c) =>
-        //         c._id === action.payload._id ? action.payload : c
-        //     ));
-        //     state.course={
-        //         name: "New Course", number: "New Number",
-        //         startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
-        //     }
-        // },
-        // deleteCourse:(state,action)=>{
-        //     state.courses = state.courses.filter(
-        //         (c) => c._id !== action.payload
-        //     );
-        // },
-        // setCourse:(state,action)=>{
-        //     state.course=action.payload;
-        // }
+        
         addCourse:(state,{payload:course})=>{
             state.courses = [...state.courses, course] as any;
         },

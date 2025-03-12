@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { Row, Card, Button, Col, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import * as db from "./Database";
+// import * as db from "./Database";
 import { addCourse, deleteCourse, updateCourse } from "./Courses/reducer";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { addStudentEnrollment, removeStudentEnrollment } from "./Courses/People/reducer";
 export default function Dashboard(
   // { courses, course, setCourse, addNewCourse,
   // deleteCourse, updateCourse }: {
@@ -13,9 +14,12 @@ export default function Dashboard(
   // updateCourse: () => void; }
 )
   {
+    const [showCourses,setShowCourses] = useState(false);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { courses } = useSelector((state: any) => state.courseReducer);
-    const { enrollments } = db;
+    const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+    const enrolledCourses = courses.filter((c:any)=>enrollments.some((enrollment:any)=> c._id===enrollment.course && enrollment.user === currentUser._id))
+    const showEnrolledCourses = showCourses? courses:enrolledCourses;
     const dispatch = useDispatch();
     const courseToAdd={_id: uuidv4(),
           name: "New Course Name", 
@@ -30,6 +34,7 @@ export default function Dashboard(
       {currentUser.role === "FACULTY" && (<><h5>New Course<button className="btn btn-primary float-end" id="wd-add-new-course-click"
           onClick={() => { const duplicateCreateBugSolve={...course,_id: uuidv4()}
           setCourse(duplicateCreateBugSolve) 
+          dispatch(addStudentEnrollment({course:course, user:currentUser}))
           dispatch(addCourse(course))}} > Add </button>
           <button className="btn btn-warning float-end me-2" onClick={() => dispatch(updateCourse(course))} id="wd-update-course-click">
           Update
@@ -40,15 +45,11 @@ export default function Dashboard(
       <FormControl value={course.description} as="textarea" rows={3}
         onChange={(e) => setCourse({ ...course, description: e.target.value })} />
       </> )}
-      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
+      {currentUser.role === "STUDENT" && <Button onClick={() => setShowCourses(!showCourses)} className="float-end">Enrollments</Button>}
+      <h2 id="wd-dashboard-published">Published Courses ({showEnrolledCourses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {courses.filter((c:any) =>
-      enrollments.some(
-        (enrollment) =>
-          enrollment.user === currentUser._id &&
-          enrollment.course === c._id
-         )).map((c:any) => (
+          {showEnrolledCourses.map((c:any) => (
             <Col className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card>
                 <Link to={`/Kambaz/Courses/${c._id}/Home`}
@@ -75,6 +76,12 @@ export default function Dashboard(
                       Edit
                     </Button>
                     </>)}
+                    {currentUser.role==="STUDENT" && (enrollments.some((enrollment: any) =>
+                      enrollment.course === c._id && currentUser._id  ===  enrollment.user)?<Button 
+                      onClick={(e)=>{e.preventDefault(); dispatch(removeStudentEnrollment({course:c, user:currentUser}))
+                      }} variant="danger">Uneroll</Button>:
+                      <Button onClick={(e)=>{e.preventDefault(); dispatch(addStudentEnrollment({course:c, user:currentUser}))
+                    }} variant="success">Enroll</Button>)}
                   </Card.Body>
                 </Link>
               </Card>
