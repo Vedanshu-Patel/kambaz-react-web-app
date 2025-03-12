@@ -1,24 +1,38 @@
 import { Link } from "react-router-dom";
 import { Row, Card, Button, Col, FormControl } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as db from "./Database";
-export default function Dashboard({ courses, course, setCourse, addNewCourse,
-  deleteCourse, updateCourse }: {
-  courses: any[]; course: any; setCourse: (course: any) => void;
-  addNewCourse: () => void; deleteCourse: (course: any) => void;
-  updateCourse: () => void; })
+import { addCourse, deleteCourse, updateCourse } from "./Courses/reducer";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+export default function Dashboard(
+  // { courses, course, setCourse, addNewCourse,
+  // deleteCourse, updateCourse }: {
+  // courses: any[]; course: any; setCourse: (course: any) => void;
+  // addNewCourse: () => void; deleteCourse: (course: any) => void;
+  // updateCourse: () => void; }
+)
   {
+    const { courses } = useSelector((state: any) => state.courseReducer);
+    
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { enrollments } = db;
+    const dispatch = useDispatch();
+    const newCourse={_id: uuidv4(),
+          name: "New Course Name", 
+          endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
+          image: "images/reactjs.jpg"
+      }
+      const [course, setCourse] = useState(newCourse);
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       <h5>New Course
         <button className="btn btn-primary float-end"
           id="wd-add-new-course-click"
-          onClick={addNewCourse} > Add </button>
+          onClick={() => dispatch(addCourse(course))} > Add </button>
           <button className="btn btn-warning float-end me-2"
-                onClick={updateCourse} id="wd-update-course-click">
+                onClick={() => dispatch(updateCourse(course))} id="wd-update-course-click">
           Update
         </button>
       </h5><hr />
@@ -29,24 +43,24 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {courses.filter((course) =>
+          {courses.filter((c:any) =>
       enrollments.some(
         (enrollment) =>
           enrollment.user === currentUser._id &&
-          enrollment.course === course._id
-         )).map((course) => (
+          enrollment.course === c._id
+         )).map((c:any) => (
             <Col className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card>
-                <Link to={`/Kambaz/Courses/${course._id}/Home`}
+                <Link to={`/Kambaz/Courses/${c._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark">
                   <Card.Img variant="top" src="/images/reactjs.jpg" width="100%" height={160} />
                   <Card.Body>
-                    <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden" >{course.name}</Card.Title>
-                    <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>{course.description}</Card.Text>
+                    <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden" >{c.name}</Card.Title>
+                    <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>{c.description}</Card.Text>
                     <Button variant="primary">Go</Button>
                     <Button variant="danger" onClick={(event) => {
                       event.preventDefault();
-                      deleteCourse(course._id);
+                      dispatch(deleteCourse(c._id));
                     }} className="float-end"
                       id="wd-delete-course-click">
                       Delete
@@ -54,7 +68,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                     <Button variant="warning" id="wd-edit-course-click"
                       onClick={(event) => {
                         event.preventDefault();
-                        setCourse(course);
+                        setCourse(c);
                       }}
                       className="me-2 float-end" >
                       Edit

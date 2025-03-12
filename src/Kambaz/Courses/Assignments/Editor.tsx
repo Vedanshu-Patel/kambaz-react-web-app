@@ -1,29 +1,57 @@
-import { Button, Col, Form, FormCheck, FormControl, FormGroup, FormLabel, Row } from "react-bootstrap";
-import { useParams } from "react-router";
-import { assignments } from "../../Database";
-import { Link } from "react-router";
-export default function AssignmentEditor() {
+import { Button, Col, Form, FormCheck, FormControl, FormGroup, FormLabel, Modal, Row } from "react-bootstrap";
+import { useNavigate, useParams,Link } from "react-router-dom";
+// import { assignments } from "../../Database";
+import { useDispatch, useSelector } from "react-redux";
+import { addAssignment, setAssignment, updateAssignment } from "./reducer";
+import { useState } from "react";
+export default function AssignmentEditor(
+  // { show, handleClose, dialogTitle,}: {
+  //   show: boolean; handleClose: () => void; dialogTitle: string; }
+) {
+  const navigate = useNavigate();
+  const [show, setShow] = useState(true);
+   const handleClose = () => setShow(false);
   const { cid } = useParams();
   const { aid } = useParams();
+  const dispatch = useDispatch();
+  const { assignment } = useSelector((state: any) => state.assignmentReducer);
+  const handleSaveButton = () => {
+    if (aid === "new") {
+        dispatch(addAssignment({
+            ...assignment
+        }));
+    } else {
+        dispatch(updateAssignment({
+            ...assignment
+        }));
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+};
+console.log(assignment);
   return (
+    <Modal show={show} onHide={handleClose}>
+   <Modal.Header closeButton>
+    <Modal.Title></Modal.Title>
+   </Modal.Header>
+   <Modal.Body>
     <div id="wd-assignments-editor" >
 
       <Form>
-        {assignments
+        {/* {assignments
           .filter((assignment: any) => assignment.course === cid && assignment._id===aid)
-          .map((assignment: any) => (
+          .map((assignment: any) => ( */}
             <FormGroup>
               <FormGroup>
                 <FormLabel htmlFor="wd-name">
                   <h3>{assignment.title}</h3>
                 </FormLabel>
-                <FormControl type="text" id="wd-name" value="A1">
+                <FormControl type="text" id="wd-name" value={assignment.title} onChange={(e) => dispatch(setAssignment({ ...assignment, title: e.target.value }))} >
 
                 </FormControl>
               </FormGroup>
               <FormGroup><br />
-                <FormControl as="textarea" id="wd-description" rows={5}>
-                  {assignment.description}
+                <FormControl as="textarea" id="wd-description" rows={5} value={assignment.description} onChange={(e) => dispatch(setAssignment({ ...assignment, description: e.target.value }))}>
+                  
                 </FormControl>
               </FormGroup><br />
               <FormGroup as={Row}>
@@ -33,7 +61,7 @@ export default function AssignmentEditor() {
                   </FormLabel>
                 </Col>
                 <Col md="9">
-                  <FormControl type="text" id="wd-points" value={assignment.points} />
+                  <FormControl type="text" id="wd-points" value={assignment.points} onChange={(e) => dispatch(setAssignment({ ...assignment, points: e.target.value }))} />
                 </Col>
               </FormGroup><br />
               <FormGroup as={Row}>
@@ -107,26 +135,27 @@ export default function AssignmentEditor() {
                     <FormLabel htmlFor="wd-due-date" className="mb-0">
                       <strong>Due</strong>
                     </FormLabel>
-                    <FormControl type="date" value={assignment.dueDate} id="wd-due-date"></FormControl>
+                    <FormControl type="date" value={assignment.dueDate} id="wd-due-date" onChange={(e) => dispatch(setAssignment({ ...assignment, dueDate: e.target.value }))}></FormControl>
                     <br />
                     <Row>
                       <Col>
                         <FormLabel htmlFor="wd-available-from" className="mb-0">
                           <strong>Available From</strong>
                         </FormLabel><br />
-                        <FormControl type="date" value={assignment.fromDate} id="wd-available-from"></FormControl>
+                        <FormControl type="date" value={assignment.fromDate} id="wd-available-from" onChange={(e) => dispatch(setAssignment({ ...assignment, fromDate: e.target.value }))}></FormControl>
                       </Col>
                       <Col>
                         <FormLabel htmlFor="wd-available-until" className="mb-0">
                           <strong>Until</strong>
                         </FormLabel>
-                        <FormControl type="date" value={assignment.untilDate} id="wd-available-until"></FormControl>
+                        <FormControl type="date" value={assignment.untilDate} id="wd-available-until" onChange={(e) => dispatch(setAssignment({ ...assignment, untilDate: e.target.value }))}></FormControl>
                       </Col>
                     </Row>
                   </div>
                 </Col>
               </FormGroup><br />
               <hr></hr>
+              <Modal.Footer>
               <FormGroup as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }}>
                   <div className="d-flex justify-content-end">
@@ -136,17 +165,19 @@ export default function AssignmentEditor() {
                     </Button>
                     </Link>
                     <Link to={`/Kambaz/Courses/${cid}/Assignments`}>
-                    <Button variant="danger">
+                    <Button variant="danger" onClick={handleSaveButton}>
                       Save
                     </Button>
                     </Link>
                   </div>
                 </Col>
               </FormGroup>
-
+              </Modal.Footer>
             </FormGroup>
-          ))}
+          {/* ))} */}
       </Form>
     </div>
+    </Modal.Body>
+    </Modal>
   );
 }
