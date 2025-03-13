@@ -13,10 +13,10 @@ const enrollmentSlice = createSlice({
                 course:course._id,
                 user:user._id
             }
-            state.enrollments=[...enrollments,newStudentEnrollment]
+            state.enrollments=[...state.enrollments,newStudentEnrollment];
         },
         removeStudentEnrollment:(state,{payload:{course,user}})=>{
-            state.enrollments = state.enrollments.filter((enrollment)=>user._id !=  enrollment.user  && enrollment.course != course._id)
+            state.enrollments = state.enrollments.filter((enrollment)=>!(user._id ===  enrollment.user  && enrollment.course === course._id))
         }
     }
 });
