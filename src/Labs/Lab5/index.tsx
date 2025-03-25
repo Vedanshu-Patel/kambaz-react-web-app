@@ -5,7 +5,6 @@ import WorkingWithArrays from "./WorkingWithArrays";
 import WorkingWithObjects from "./WorkingWithObjects";
 const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
 console.log("REMOTE_SERVER:", import.meta.env.VITE_REMOTE_SERVER);
-console.log("debug");
 export default function Lab5() {
     return (
       <div id="wd-lab5">
@@ -24,4 +23,3 @@ export default function Lab5() {
       </div>
     );
   }
-  
