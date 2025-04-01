@@ -1,13 +1,13 @@
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark"
-import { deleteAssignment } from "./reducer";
+// import { deleteAssignment } from "./reducer";
 import { FaTrash } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 export default function IndividualAssignmentControlButtons(
-  {deleteAssignmentId}:{deleteAssignmentId:String;}
+  {deleteAssignmentId,removeAssignment}:{deleteAssignmentId:string;removeAssignment:(deleteAssignmentId:string)=>void;}
 ) {
     const { assignment } = useSelector((state: any) => state.assignmentReducer);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     console.log(assignment._id)
   return (
@@ -17,7 +17,8 @@ export default function IndividualAssignmentControlButtons(
                                             " You are going to delete this assignment. Are you sure you want to proceed?"
                                         );
                                         if (confirmDeleteWin) {
-                                          dispatch(deleteAssignment(deleteAssignmentId));
+                                          // dispatch(deleteAssignment(deleteAssignmentId));
+                                          removeAssignment(deleteAssignmentId);
                                         }
                                     }} />}
       <GreenCheckmark />

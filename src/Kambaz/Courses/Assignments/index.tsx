@@ -9,8 +9,10 @@ import { useParams } from "react-router";
 // import { assignments } from "../../Database";
 import { parse, format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
-import { setAssignment } from "./reducer";
+import { deleteAssignment, setAssignment, setAssignments } from "./reducer";
+import * as assignmentClient from "./client";
 import IndividualAssignmentControlButtons from "./IndividualAssignmentControlButtons";
+import { useEffect } from "react";
 export default function Assignments() {
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const {cid} = useParams();
@@ -20,6 +22,17 @@ export default function Assignments() {
     return format(parsedDate, "MMMM d, yyyy");
   };
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const fetchAllAssignmentsForCourses = async ()=> {
+    const assignments = await assignmentClient.findAssignmentsForCourses(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(()=>{
+    fetchAllAssignmentsForCourses();
+  },[]);
+  const removeAssignment = async(assignmentId:string)=>{
+    await assignmentClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
   return (
     <div id="wd-assignments">
       {currentUser.role === "FACULTY" && <AssignmentControls />}<br /><br /><br /><br />
@@ -29,7 +42,7 @@ export default function Assignments() {
           </div>
           <ListGroup className="wd-lesson rounded-0" id="wd-assignment-list">
           {assignments
-          .filter((assignment: any) => assignment.course === cid)
+          // .filter((assignment: any) => assignment.course === cid)
           .map((assignment: any) => (
             <ListGroup.Item className="wd-lesson p-3 ps-1 wd-assignment-list-item">
               <div className="d-flex">
@@ -40,7 +53,7 @@ export default function Assignments() {
                   <MdEditDocument className="me-2 fs-3" style={{ color: '#008000' }} />
                 </span>
                 <div className="position-relative flex-grow-1">
-                  <IndividualAssignmentControlButtons deleteAssignmentId={assignment._id}/>
+                  <IndividualAssignmentControlButtons deleteAssignmentId={assignment._id} removeAssignment={removeAssignment}/>
                   {currentUser.role === "FACULTY" ? (<a className="wd-assignment-link text-black link-underline link-underline-opacity-0" href={`#/Kambaz/Courses/${cid}/Assignments/${assignment._id}`} onClick={() => dispatch(setAssignment(assignment))}>
                     <b>{assignment.title}</b>
                   </a>):(

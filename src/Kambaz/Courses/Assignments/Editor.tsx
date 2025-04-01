@@ -4,6 +4,7 @@ import { useNavigate, useParams,Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, setAssignment, updateAssignment } from "./reducer";
 import { useState } from "react";
+import * as assignmentClient from "./client";
 export default function AssignmentEditor(
   // { show, handleClose, dialogTitle,}: {
   //   show: boolean; handleClose: () => void; dialogTitle: string; }
@@ -15,17 +16,19 @@ export default function AssignmentEditor(
   const { aid } = useParams();
   const dispatch = useDispatch();
   const { assignment } = useSelector((state: any) => state.assignmentReducer);
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
     if (aid === "new") {
+      await assignmentClient.createAssignment(assignment);
         dispatch(addAssignment({
             ...assignment
         }));
     } else {
+      await assignmentClient.updateAssignment(assignment);
         dispatch(updateAssignment({
             ...assignment
         }));
     }
-    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    navigate(`/Kambaz/Courses/${cid}/Assignments`);
 };
 console.log(assignment);
   return (

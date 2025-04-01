@@ -23,12 +23,12 @@ export default function Dashboard(
     // const enrolledCourses = courses.filter((c:any)=>enrollments.some((enrollment:any)=> c._id===enrollment.course && enrollment.user === currentUser._id))
     // const showEnrolledCourses = showCourses? courses:enrolledCourses;
     const dispatch = useDispatch();
-    const courseToAdd={_id: uuidv4(),
-          name: "New Course Name", 
-          endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
-          department: "D123",
-      credits: 4,
-      }
+    // const courseToAdd={_id: uuidv4(),
+    //       name: "New Course Name", 
+    //       endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
+    //       department: "D123",
+    //   credits: 4,
+    //   }
       // const [course, setCourse] = useState(courseToAdd);
   return (
     <div id="wd-dashboard">
