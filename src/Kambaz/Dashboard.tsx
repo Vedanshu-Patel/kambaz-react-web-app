@@ -12,8 +12,8 @@ export default function Dashboard(
   // courses: any[]; course: any; setCourse: (course: any) => void;
   // addNewCourse: () => void; deleteCourse: (course: any) => void;
   // updateCourse: () => void; }
-  {courses, course, setCourse, addNewCourse,deleteCourse,updateCourse,enrollments,unenrollInCourse,enrollInCourse,setFlag,flag}:{courses: any[];course: any; setCourse: (course: any) => void;
-    addNewCourse: () => void;deleteCourse: (course: any) => void; updateCourse: () => void;enrollments:any[],unenrollInCourse:(user:any,course:any)=>void;enrollInCourse:(user:any,course:any)=>void;setFlag:(flag:boolean)=>void;flag:boolean}
+  {courses, course, setCourse,deleteCourse, addNewCourse,updateCourse,enrollments,unenrollInCourse,enrollInCourse,setFlag,flag}:{courses: any[];course: any; setCourse: (course: any) => void;deleteCourse: (course: any) => void;
+    addNewCourse: () => void; updateCourse: () => void;enrollments:any[],unenrollInCourse:(user:any,course:any)=>void;enrollInCourse:(user:any,course:any)=>void;setFlag:(flag:boolean)=>void;flag:boolean}
 )
   {
     // const [showCourses,setShowCourses] = useState(false);
