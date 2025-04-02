@@ -105,19 +105,16 @@ const updateCourse = async () => {
       console.log(error);
     }
   };
-  const enrollInCourse = async (user:any,course:any)=>{
-    await enrollmentsClient.enrollInCourse(user._id,course._id);
-    dispatch(addStudentEnrollment({course,user}));
-  }
   const unenrollInCourse = async(user:any,course:any)=>{
     await enrollmentsClient.unenrollInCourse(user._id,course._id);
     dispatch(removeStudentEnrollment({course,user}));
     fetchCourses();
   }
-  // useEffect(()=>{
-  //   console.log("calling useeffect to update enrollments")
-  //   fetchEnrollments();
-  // }, [enrollments]);
+  const enrollInCourse = async (user:any,course:any)=>{
+    await enrollmentsClient.enrollInCourse(user._id,course._id);
+    dispatch(addStudentEnrollment({course,user}));
+  }
+  
   useEffect(() => {
     fetchEnrollments();
   }, []);

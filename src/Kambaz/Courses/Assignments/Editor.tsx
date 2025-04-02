@@ -10,12 +10,12 @@ export default function AssignmentEditor(
   //   show: boolean; handleClose: () => void; dialogTitle: string; }
 ) {
   const navigate = useNavigate();
+  const { assignment } = useSelector((state: any) => state.assignmentReducer);
   const [show, setShow] = useState(true);
-   const handleClose = () => setShow(false);
   const { cid } = useParams();
+  const handleClose = () => setShow(false);
   const { aid } = useParams();
   const dispatch = useDispatch();
-  const { assignment } = useSelector((state: any) => state.assignmentReducer);
   const handleSaveButton = async () => {
     if (aid === "new") {
       await assignmentClient.createAssignment(assignment);
