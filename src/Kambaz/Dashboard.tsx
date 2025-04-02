@@ -3,7 +3,7 @@ import { Row, Card, Button, Col, FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
 // import * as db from "./Database";
 // import { addCourse, deleteCourse, updateCourse } from "./Courses/reducer";
-import { useState } from "react";
+// import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 // import { addStudentEnrollment, removeStudentEnrollment } from "./Courses/People/reducer";
 export default function Dashboard(
@@ -12,12 +12,13 @@ export default function Dashboard(
   // courses: any[]; course: any; setCourse: (course: any) => void;
   // addNewCourse: () => void; deleteCourse: (course: any) => void;
   // updateCourse: () => void; }
-  {courses, course, setCourse, addNewCourse,deleteCourse,updateCourse,enrollments,unenrollInCourse,enrollInCourse}:{courses: any[];course: any; setCourse: (course: any) => void;
-    addNewCourse: () => void;deleteCourse: (course: any) => void; updateCourse: () => void;enrollments:any[],unenrollInCourse:(user:any,course:any)=>void;enrollInCourse:(user:any,course:any)=>void;}
+  {courses, course, setCourse, addNewCourse,deleteCourse,updateCourse,enrollments,unenrollInCourse,enrollInCourse,setFlag,flag}:{courses: any[];course: any; setCourse: (course: any) => void;
+    addNewCourse: () => void;deleteCourse: (course: any) => void; updateCourse: () => void;enrollments:any[],unenrollInCourse:(user:any,course:any)=>void;enrollInCourse:(user:any,course:any)=>void;setFlag:(flag:boolean)=>void;flag:boolean}
 )
   {
-    const [showCourses,setShowCourses] = useState(false);
+    // const [showCourses,setShowCourses] = useState(false);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
+
     // const { courses } = useSelector((state: any) => state.courseReducer);
     // const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
     // const enrolledCourses = courses.filter((c:any)=>enrollments.some((enrollment:any)=> c._id===enrollment.course && enrollment.user === currentUser._id))
@@ -48,7 +49,7 @@ export default function Dashboard(
       <FormControl value={course.description} as="textarea" rows={3}
         onChange={(e) => setCourse({ ...course, description: e.target.value })} />
       </> )}
-      {currentUser.role === "STUDENT" && <Button onClick={() => setShowCourses(!showCourses)} className="float-end">Enrollments</Button>}
+      {currentUser.role === "STUDENT" && <Button onClick={() => setFlag(!flag)} className="float-end">Enrollments</Button>}
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">

@@ -42,6 +42,7 @@ export default function Kambaz(){
 
   // const { courses } = useSelector((state: any) => state.courseReducer);
   const [courses, setCourses] = useState<any[]>([]);
+  const [flag,setFlag] = useState(false);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
   const dispatch = useDispatch();
@@ -49,6 +50,14 @@ export default function Kambaz(){
     try {
       const courses = await userClient.findMyCourses();
       setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const fetchAllCourses = async ()=>{
+    try {
+      const allCourses = await courseClient.fetchAllCourses();
+      setCourses(allCourses);
     } catch (error) {
       console.error(error);
     }
@@ -112,6 +121,14 @@ const updateCourse = async () => {
   useEffect(() => {
     fetchEnrollments();
   }, []);
+  useEffect(()=>{
+    if(flag){
+      fetchAllCourses();
+    }
+    else{
+      fetchCourses();
+    }
+  },[flag,currentUser]);
 
     return(
       <Session>
@@ -137,6 +154,8 @@ const updateCourse = async () => {
                 enrollments={enrollments}
                 enrollInCourse={enrollInCourse}
                 unenrollInCourse={unenrollInCourse}
+                setFlag={setFlag}
+                flag={flag}
                 /></ProtectedRoute>
               } />
               <Route path="/Courses/:cid/*" element={<ProtectedRoute><Courses courses={courses}/></ProtectedRoute>} />
