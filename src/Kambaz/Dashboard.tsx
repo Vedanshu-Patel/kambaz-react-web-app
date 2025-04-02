@@ -1,28 +1,28 @@
 import { Link } from "react-router-dom";
 import { Row, Card, Button, Col, FormControl } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import * as db from "./Database";
 // import { addCourse, deleteCourse, updateCourse } from "./Courses/reducer";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { addStudentEnrollment, removeStudentEnrollment } from "./Courses/People/reducer";
+// import { addStudentEnrollment, removeStudentEnrollment } from "./Courses/People/reducer";
 export default function Dashboard(
   // { courses, course, setCourse, addNewCourse,
   // deleteCourse, updateCourse }: {
   // courses: any[]; course: any; setCourse: (course: any) => void;
   // addNewCourse: () => void; deleteCourse: (course: any) => void;
   // updateCourse: () => void; }
-  {courses, course, setCourse, addNewCourse,deleteCourse,updateCourse}:{courses: any[];course: any; setCourse: (course: any) => void;
-    addNewCourse: () => void;deleteCourse: (course: any) => void; updateCourse: () => void;}
+  {courses, course, setCourse, addNewCourse,deleteCourse,updateCourse,enrollments,unenrollInCourse,enrollInCourse}:{courses: any[];course: any; setCourse: (course: any) => void;
+    addNewCourse: () => void;deleteCourse: (course: any) => void; updateCourse: () => void;enrollments:any[],unenrollInCourse:(user:any,course:any)=>void;enrollInCourse:(user:any,course:any)=>void;}
 )
   {
     const [showCourses,setShowCourses] = useState(false);
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     // const { courses } = useSelector((state: any) => state.courseReducer);
-    const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+    // const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
     // const enrolledCourses = courses.filter((c:any)=>enrollments.some((enrollment:any)=> c._id===enrollment.course && enrollment.user === currentUser._id))
     // const showEnrolledCourses = showCourses? courses:enrolledCourses;
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     // const courseToAdd={_id: uuidv4(),
     //       name: "New Course Name", 
     //       endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
@@ -36,11 +36,12 @@ export default function Dashboard(
       {currentUser.role === "FACULTY" && (<><h5>New Course<button className="btn btn-primary float-end" id="wd-add-new-course-click"
           onClick={() => { const duplicateCreateBugSolve={...course,_id: uuidv4()}
           setCourse(duplicateCreateBugSolve) 
-          dispatch(addStudentEnrollment({course:course, user:currentUser}))
+          // dispatch(addStudentEnrollment({course:course, user:currentUser}))
+          enrollInCourse(currentUser,course);
           addNewCourse()}} > Add </button>
           <button className="btn btn-warning float-end me-2" onClick={() => updateCourse()} id="wd-update-course-click">
           Update
-        </button>
+        </button>  
       </h5><hr />
       <FormControl value={course.name} className="mb-2"
         onChange={(e) => setCourse({ ...course, name: e.target.value })} />
@@ -80,9 +81,15 @@ export default function Dashboard(
                     </>)}
                     {currentUser.role==="STUDENT" && (enrollments.some((enrollment: any) =>
                       enrollment.course === c._id && currentUser._id  ===  enrollment.user)?<Button 
-                      onClick={(e)=>{e.preventDefault(); dispatch(removeStudentEnrollment({course:c, user:currentUser}))
+                      onClick={(e)=>{
+                        e.preventDefault(); 
+                        // dispatch(removeStudentEnrollment({course:c, user:currentUser}))
+                        unenrollInCourse(currentUser,c);
                       }} variant="danger" className="float-end">Uneroll</Button>:
-                      <Button onClick={(e)=>{e.preventDefault(); dispatch(addStudentEnrollment({course:c, user:currentUser}))
+                      <Button onClick={(e)=>{
+                        e.preventDefault(); 
+                        // dispatch(addStudentEnrollment({course:c, user:currentUser}))
+                        enrollInCourse(currentUser,c);
                     }} variant="success" className="float-end">Enroll</Button>)}
                   </Card.Body>
                 </Link>

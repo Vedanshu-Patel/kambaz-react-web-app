@@ -11,9 +11,11 @@ import { v4 as uuidv4 } from "uuid";
 // import { v4 as uuidv4 } from "uuid";
 import * as courseClient from "./Courses/client";
 import ProtectedRoute from "./Account/ProtectedRoute"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import * as userClient from "./Account/client";
+import * as enrollmentsClient from "./Courses/People/client";
+import { setEnrollments,removeStudentEnrollment ,addStudentEnrollment} from "./Courses/People/reducer";
 export default function Kambaz(){
   // const [courses, setCourses] = useState<any[]>(db.courses);
   // const [course, setCourse] = useState<any>({
@@ -41,6 +43,8 @@ export default function Kambaz(){
   // const { courses } = useSelector((state: any) => state.courseReducer);
   const [courses, setCourses] = useState<any[]>([]);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+  const dispatch = useDispatch();
   const fetchCourses = async () => {
     try {
       const courses = await userClient.findMyCourses();
@@ -83,7 +87,31 @@ const updateCourse = async () => {
       })
     );
   };
-
+  
+  const fetchEnrollments = async()=>{
+    try{
+      const enrollments = await enrollmentsClient.findAllEnrollments();
+      dispatch(setEnrollments(enrollments));
+    } catch(error){
+      console.log(error);
+    }
+  };
+  const enrollInCourse = async (user:any,course:any)=>{
+    await enrollmentsClient.enrollInCourse(user._id,course._id);
+    dispatch(addStudentEnrollment({course,user}));
+  }
+  const unenrollInCourse = async(user:any,course:any)=>{
+    await enrollmentsClient.unenrollInCourse(user._id,course._id);
+    dispatch(removeStudentEnrollment({course,user}));
+    fetchCourses();
+  }
+  // useEffect(()=>{
+  //   console.log("calling useeffect to update enrollments")
+  //   fetchEnrollments();
+  // }, [enrollments]);
+  useEffect(() => {
+    fetchEnrollments();
+  }, []);
 
     return(
       <Session>
@@ -106,6 +134,9 @@ const updateCourse = async () => {
                 addNewCourse={addNewCourse}
                 deleteCourse={deleteCourse}
                 updateCourse={updateCourse}
+                enrollments={enrollments}
+                enrollInCourse={enrollInCourse}
+                unenrollInCourse={unenrollInCourse}
                 /></ProtectedRoute>
               } />
               <Route path="/Courses/:cid/*" element={<ProtectedRoute><Courses courses={courses}/></ProtectedRoute>} />
