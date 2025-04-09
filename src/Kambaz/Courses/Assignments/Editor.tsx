@@ -23,7 +23,7 @@ export default function AssignmentEditor(
             ...assignment
         }));
     } else {
-      await assignmentClient.updateAssignment(assignment);
+      await assignmentClient.updateAssignment(assignment._id);
         dispatch(updateAssignment({
             ...assignment
         }));
