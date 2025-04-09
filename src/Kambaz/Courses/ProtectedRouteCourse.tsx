@@ -8,7 +8,8 @@ export default function ProtectedRouteCourse({children}:{ children: any }){
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const navigate = useNavigate();
     const isEnrolled = (cId: any) => {
-        return enrollments.some((enrollment: any) =>enrollment.course === cId && currentUser._id  ===  enrollment.user);}
+        return enrollments.some((enrollment: any) =>enrollment.course === cId && currentUser._id  ===  enrollment.user);
+    }
         
         if(isEnrolled(cid)){
             return children;
@@ -18,3 +19,14 @@ export default function ProtectedRouteCourse({children}:{ children: any }){
         }
     
 }
+// export default function ProtectedRouteCourse({children}:{ children: any }){
+//     const { currentUser } = useSelector((state: any) => state.accountReducer);
+//     const navigate = useNavigate();
+//         if(currentUser){
+//             return children;
+//         }
+//         else{
+//             navigate(`/Kambaz/Dashboard`)
+//         }
+    
+// }
