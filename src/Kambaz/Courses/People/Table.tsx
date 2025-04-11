@@ -5,9 +5,10 @@ import { FaUserCircle } from "react-icons/fa";
 // import { useSelector } from "react-redux";
 import PeopleDetails from "./Details";
 import { Link } from "react-router";
-export default function PeopleTable({ users = [] }: { users?: any[] }) {
+export default function PeopleTable({users}:{users:any}) {
     // const { cid } = useParams();
     // const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+    console.log(users);
  return (
   <div id="wd-people-table">
     <PeopleDetails />
