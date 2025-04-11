@@ -12,48 +12,52 @@ export default function Dashboard(
   // courses: any[]; course: any; setCourse: (course: any) => void;
   // addNewCourse: () => void; deleteCourse: (course: any) => void;
   // updateCourse: () => void; }
-  {courses, course, setCourse,deleteCourse, addNewCourse,updateCourse,enrollments,unenrollInCourse,enrollInCourse,setFlag,flag}:{courses: any[];course: any; setCourse: (course: any) => void;deleteCourse: (course: any) => void;
-    addNewCourse: () => void; updateCourse: () => void;enrollments:any[],unenrollInCourse:(user:any,course:any)=>void;enrollInCourse:(user:any,course:any)=>void;setFlag:(flag:boolean)=>void;flag:boolean}
-)
-  {
-    // const [showCourses,setShowCourses] = useState(false);
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
+  { courses, course, setCourse, deleteCourse, addNewCourse, updateCourse, enrollments, unenrollInCourse, enrollInCourse, setFlag, flag }: {
+    courses: any[]; course: any; setCourse: (course: any) => void; deleteCourse: (course: any) => void;
+    addNewCourse: () => void; updateCourse: () => void; enrollments: any[], unenrollInCourse: (user: any, course: any) => void; enrollInCourse: (user: any, course: any) => void; setFlag: (flag: boolean) => void; flag: boolean
+  }
+) {
+  // const [showCourses,setShowCourses] = useState(false);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-    // const { courses } = useSelector((state: any) => state.courseReducer);
-    // const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
-    // const enrolledCourses = courses.filter((c:any)=>enrollments.some((enrollment:any)=> c._id===enrollment.course && enrollment.user === currentUser._id))
-    // const showEnrolledCourses = showCourses? courses:enrolledCourses;
-    // const dispatch = useDispatch();
-    // const courseToAdd={_id: uuidv4(),
-    //       name: "New Course Name", 
-    //       endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
-    //       department: "D123",
-    //   credits: 4,
-    //   }
-      // const [course, setCourse] = useState(courseToAdd);
+  // const { courses } = useSelector((state: any) => state.courseReducer);
+  // const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+  // const enrolledCourses = courses.filter((c:any)=>enrollments.some((enrollment:any)=> c._id===enrollment.course && enrollment.user === currentUser._id))
+  // const showEnrolledCourses = showCourses? courses:enrolledCourses;
+  // const dispatch = useDispatch();
+  // const courseToAdd={_id: uuidv4(),
+  //       name: "New Course Name", 
+  //       endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
+  //       department: "D123",
+  //   credits: 4,
+  //   }
+  // const [course, setCourse] = useState(courseToAdd);
+  console.log(courses)
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       {currentUser.role === "FACULTY" && (<><h5>New Course<button className="btn btn-primary float-end" id="wd-add-new-course-click"
-          onClick={() => { const duplicateCreateBugSolve={...course,_id: uuidv4()}
-          setCourse(duplicateCreateBugSolve) 
+        onClick={() => {
+          const duplicateCreateBugSolve = { ...course, _id: uuidv4() }
+          setCourse(duplicateCreateBugSolve)
           // dispatch(addStudentEnrollment({course:course, user:currentUser}))
-          enrollInCourse(currentUser,course);
-          addNewCourse()}} > Add </button>
-          <button className="btn btn-warning float-end me-2" onClick={() => updateCourse()} id="wd-update-course-click">
+          enrollInCourse(currentUser, course);
+          addNewCourse()
+        }} > Add </button>
+        <button className="btn btn-warning float-end me-2" onClick={() => updateCourse()} id="wd-update-course-click">
           Update
-        </button>  
+        </button>
       </h5><hr />
-      <FormControl value={course.name} className="mb-2"
-        onChange={(e) => setCourse({ ...course, name: e.target.value })} />
-      <FormControl value={course.description} as="textarea" rows={3}
-        onChange={(e) => setCourse({ ...course, description: e.target.value })} />
-      </> )}
+        <FormControl value={course.name} className="mb-2"
+          onChange={(e) => setCourse({ ...course, name: e.target.value })} />
+        <FormControl value={course.description} as="textarea" rows={3}
+          onChange={(e) => setCourse({ ...course, description: e.target.value })} />
+      </>)}
       {currentUser.role === "STUDENT" && <Button onClick={() => setFlag(!flag)} className="float-end">Enrollments</Button>}
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {courses.map((c:any) => (
+          {courses.map((c: any) => (
             <Col className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card>
                 <Link to={`/Kambaz/Courses/${c._id}/Home`}
@@ -64,34 +68,34 @@ export default function Dashboard(
                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>{c.description}</Card.Text>
                     <Button variant="primary">Go</Button>
                     {currentUser.role === "FACULTY" && (<>
-                    <Button variant="danger" onClick={(e) => {
-                      e.preventDefault();
-                      deleteCourse(c._id);
-                    }} className="float-end"
-                      id="wd-delete-course-click">
-                      Delete
-                    </Button>
-                    <Button variant="warning" id="wd-edit-course-click"
-                      onClick={(e) => {
+                      <Button variant="danger" onClick={(e) => {
                         e.preventDefault();
-                        setCourse(c);
-                      }}
-                      className="me-2 float-end" >
-                      Edit
-                    </Button>
+                        deleteCourse(c._id);
+                      }} className="float-end"
+                        id="wd-delete-course-click">
+                        Delete
+                      </Button>
+                      <Button variant="warning" id="wd-edit-course-click"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCourse(c);
+                        }}
+                        className="me-2 float-end" >
+                        Edit
+                      </Button>
                     </>)}
-                    {currentUser.role==="STUDENT" && (enrollments.some((enrollment: any) =>
-                      enrollment.course === c._id && currentUser._id  ===  enrollment.user)?<Button 
-                      onClick={(e)=>{
-                        e.preventDefault(); 
-                        // dispatch(removeStudentEnrollment({course:c, user:currentUser}))
-                        unenrollInCourse(currentUser,c);
-                      }} variant="danger" className="float-end">Uneroll</Button>:
-                      <Button onClick={(e)=>{
-                        e.preventDefault(); 
+                    {currentUser.role === "STUDENT" && (enrollments.some((enrollment: any) =>
+                      enrollment.course === c._id && currentUser._id === enrollment.user) ? <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // dispatch(removeStudentEnrollment({course:c, user:currentUser}))
+                          unenrollInCourse(currentUser, c);
+                        }} variant="danger" className="float-end">Uneroll</Button> :
+                      <Button onClick={(e) => {
+                        e.preventDefault();
                         // dispatch(addStudentEnrollment({course:c, user:currentUser}))
-                        enrollInCourse(currentUser,c);
-                    }} variant="success" className="float-end">Enroll</Button>)}
+                        enrollInCourse(currentUser, c);
+                      }} variant="success" className="float-end">Enroll</Button>)}
                   </Card.Body>
                 </Link>
               </Card>

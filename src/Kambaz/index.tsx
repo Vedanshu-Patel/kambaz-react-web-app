@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import * as userClient from "./Account/client";
 import * as enrollmentsClient from "./Courses/People/client";
-import { setEnrollments,removeStudentEnrollment ,addStudentEnrollment} from "./Courses/People/reducer";
-export default function Kambaz(){
+import { setEnrollments, removeStudentEnrollment, addStudentEnrollment } from "./Courses/People/reducer";
+export default function Kambaz() {
   // const [courses, setCourses] = useState<any[]>(db.courses);
   // const [course, setCourse] = useState<any>({
   //   _id: "1234", name: "New Course", number: "New Number",
@@ -42,19 +42,20 @@ export default function Kambaz(){
 
   // const { courses } = useSelector((state: any) => state.courseReducer);
   const [courses, setCourses] = useState<any[]>([]);
-  const [flag,setFlag] = useState(false);
+  const [flag, setFlag] = useState(false);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
   const dispatch = useDispatch();
   const fetchCourses = async () => {
     try {
       const courses = await userClient.findMyCourses();
+      console.log(courses)
       setCourses(courses);
     } catch (error) {
       console.error(error);
     }
   };
-  const fetchAllCourses = async ()=>{
+  const fetchAllCourses = async () => {
     try {
       const allCourses = await courseClient.fetchAllCourses();
       setCourses(allCourses);
@@ -68,25 +69,26 @@ export default function Kambaz(){
 
   const [course, setCourse] = useState<any>({
     _id: uuidv4(),
-          name: "New Course Name", 
-          endDate: "2026-02-09", number: "New Course Number",description: "New Course Description",startDate: "2025-12-07",
-          department: "D123",
-      credits: 4,
+    name: "New Course Name",
+    endDate: "2026-02-09", number: "New Course Number", description: "New Course Description", startDate: "2025-12-07",
+    department: "D123",
+    credits: 4,
   });
-  
+
   const addNewCourse = async () => {
     // const newCourse = await userClient.createCourse(course);
-    const newCourse = await courseClient.createCourse(course);
-    setCourses([ ...courses, newCourse ]);
+    const newCourse = await userClient.createCourse(course);
+    setCourses([...courses, newCourse]);
+
   };
 
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
+    const status = await userClient.deleteCourse(courseId, currentUser);
     setCourses(courses.filter((course) => course._id !== courseId));
     console.log(status);
-};
-const updateCourse = async () => {
-  await courseClient.updateCourse(course);
+  };
+  const updateCourse = async () => {
+    await courseClient.updateCourse(course);
     setCourses(
       courses.map((c) => {
         if (c._id === course._id) {
@@ -97,52 +99,55 @@ const updateCourse = async () => {
       })
     );
   };
-  
-  const fetchEnrollments = async()=>{
-    try{
+
+  const fetchEnrollments = async () => {
+    try {
       const enrollments = await enrollmentsClient.findAllEnrollments();
+      console.log(enrollments)
       dispatch(setEnrollments(enrollments));
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
   };
-  const unenrollInCourse = async(user:any,course:any)=>{
-    await enrollmentsClient.unenrollInCourse(user._id,course._id);
-    dispatch(removeStudentEnrollment({course,user}));
+  const unenrollInCourse = async (user: any, course: any) => {
+    await enrollmentsClient.unenrollInCourse(user._id, course._id);
+    dispatch(removeStudentEnrollment({ course, user }));
     fetchCourses();
   }
-  const enrollInCourse = async (user:any,course:any)=>{
-    await enrollmentsClient.enrollInCourse(user._id,course._id);
-    dispatch(addStudentEnrollment({course,user}));
+  const enrollInCourse = async (user: any, course: any) => {
+    if(user.role!="FACULTY"){
+      await enrollmentsClient.enrollInCourse(user._id,course._id);
+    }
+    dispatch(addStudentEnrollment({ course, user }));
   }
-  
+
   useEffect(() => {
     fetchEnrollments();
   }, []);
-  useEffect(()=>{
-    if(flag){
+  useEffect(() => {
+    if (flag) {
       fetchAllCourses();
     }
-    else{
+    else {
       fetchCourses();
     }
-  },[flag,currentUser]);
+  }, [flag, currentUser]);
 
-    return(
-      <Session>
+  return (
+    <Session>
       <div id="wd-kambaz">
-      {/* <table>
+        {/* <table>
         <tr>
           <td valign="top"> */}
-            <KambazNavigation />
-          {/* </td>
+        <KambazNavigation />
+        {/* </td>
           <td valign="top"> */}
-          <div className="wd-main-content-offset p-3">
-            <Routes>
-              <Route path="/" element={<Navigate to="/Kambaz/Account" />} />
-              <Route path="/Account/*" element={<Account />} />
-              <Route path="/Dashboard" element={
-                <ProtectedRoute><Dashboard
+        <div className="wd-main-content-offset p-3">
+          <Routes>
+            <Route path="/" element={<Navigate to="/Kambaz/Account" />} />
+            <Route path="/Account/*" element={<Account />} />
+            <Route path="/Dashboard" element={
+              <ProtectedRoute><Dashboard
                 courses={courses}
                 course={course}
                 setCourse={setCourse}
@@ -154,17 +159,17 @@ const updateCourse = async () => {
                 unenrollInCourse={unenrollInCourse}
                 setFlag={setFlag}
                 flag={flag}
-                /></ProtectedRoute>
-              } />
-              <Route path="/Courses/:cid/*" element={<ProtectedRoute><Courses courses={courses}/></ProtectedRoute>} />
-              <Route path="/Calendar" element={<h1>Calendar</h1>} />
-              <Route path="/Inbox" element={<h1>Inbox</h1>} />
-            </Routes>
-            </div>
-          {/* </td>
+              /></ProtectedRoute>
+            } />
+            <Route path="/Courses/:cid/*" element={<ProtectedRoute><Courses courses={courses} /></ProtectedRoute>} />
+            <Route path="/Calendar" element={<h1>Calendar</h1>} />
+            <Route path="/Inbox" element={<h1>Inbox</h1>} />
+          </Routes>
+        </div>
+        {/* </td>
         </tr>
       </table> */}
-    </div>
+      </div>
     </Session>
-    );
+  );
 }

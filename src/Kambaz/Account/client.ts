@@ -30,6 +30,11 @@ export const signup = async (user: any) => {
   };
   export const findMyCourses = async () => {
     const { data } = await axiosWithCredentials.get(`${USERS_API}/current/courses`);
+    console.log(data)
+    return data;
+  };
+  export const deleteCourse = async (course_id: string, user : any) => {
+    const { data } = await axiosWithCredentials.delete(`${USERS_API}/${user._id}/${course_id}`);
     return data;
   };
   export const findAllUsers = async () => {
