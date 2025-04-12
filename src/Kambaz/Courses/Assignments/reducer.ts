@@ -32,7 +32,7 @@ const assignmentsSlice = createSlice({
         //     };
         //     state.assignments = [...state.assignments, newAssignment] as any;
         // },
-        addAssignment: (state, action) => {   state.assignments = [...state.assignments,{...action.payload, _id: uuidv4(),}]; 
+        addAssignment: (state, action) => {   state.assignments = [...state.assignments,action.payload]; 
         state.assignment = {
                     title:"",
                     course:"",

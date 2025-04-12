@@ -18,10 +18,8 @@ export default function AssignmentEditor(
   const dispatch = useDispatch();
   const handleSaveButton = async () => {
     if (aid === "new") {
-      await assignmentClient.createAssignment(assignment);
-        dispatch(addAssignment({
-            ...assignment
-        }));
+      const a  = await assignmentClient.createAssignment(assignment);
+        dispatch(addAssignment(a));
     } else {
       await assignmentClient.updateAssignment(assignment);
         dispatch(updateAssignment({
